@@ -4,19 +4,13 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
+import com.app.sportsConnect.entity.*;
+import com.app.sportsConnect.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
-import com.app.sportsConnect.entity.BasketballFixture;
-import com.app.sportsConnect.entity.CricketFixture;
-import com.app.sportsConnect.entity.FootballFixture;
-import com.app.sportsConnect.entity.VolleyballFixture;
 import com.app.sportsConnect.exceptions.ResourceNotFoundException;
-import com.app.sportsConnect.repository.BasketballFixtureRepository;
-import com.app.sportsConnect.repository.CricketFixtureRepository;
-import com.app.sportsConnect.repository.FootballFixtureRepository;
-import com.app.sportsConnect.repository.VolleyballFixtureRepository;
 
 @Service
 public class FixtureService {
@@ -32,6 +26,9 @@ public class FixtureService {
 
     @Autowired
     private BasketballFixtureRepository basketballFixtureRepository;
+
+    @Autowired
+    private KabaddiFixtureRepository kabaddiFixtureRepository;
 
     //Cricket Services
     public CricketFixture saveCricketFixture(CricketFixture fixture) {
@@ -114,5 +111,29 @@ public class FixtureService {
 
         return basketballFixtureRepository.save(existingFixture);
     }
+
+    public KabaddiFixture saveKabaddiFixture(KabaddiFixture fixture) {
+        return kabaddiFixtureRepository.save(fixture);
+    }
+
+    public List<KabaddiFixture> getAllKabaddiFixtures() {
+        return kabaddiFixtureRepository.findAll();
+    }
+
+    public KabaddiFixture updateKabaddiFixture(Long matchId, Map<String, Object> updatedFixture) throws ResourceNotFoundException {
+        KabaddiFixture existingFixture = kabaddiFixtureRepository.findById(matchId).orElseThrow(() -> new ResourceNotFoundException("Fixture Not Found"));
+
+        updatedFixture.forEach((key, value) -> {
+            Field field = ReflectionUtils.findField(KabaddiFixture.class, key);
+            if (field != null) {
+                field.setAccessible(true);
+                ReflectionUtils.setField(field, existingFixture, value);
+            }
+        });
+
+        return kabaddiFixtureRepository.save(existingFixture);
+    }
+
+
 }
 

@@ -3,6 +3,7 @@ package com.app.sportsConnect.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.app.sportsConnect.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.sportsConnect.entity.BasketballFixture;
-import com.app.sportsConnect.entity.CricketFixture;
-import com.app.sportsConnect.entity.FootballFixture;
-import com.app.sportsConnect.entity.VolleyballFixture;
 import com.app.sportsConnect.exceptions.ResourceNotFoundException;
 import com.app.sportsConnect.service.FixtureService;
 
@@ -109,5 +106,29 @@ public class FixtureController {
         BasketballFixture fixture = fixtureService.updateBasketballFixture(matchId, updatedFixture);
         return fixture != null ? ResponseEntity.ok(fixture) : ResponseEntity.notFound().build();
     }
+
+    // Get all kabaddi fixtures
+    @GetMapping("/kabaddi")
+    public ResponseEntity<List<KabaddiFixture>> getAllKabaddiFixtures() {
+        List<KabaddiFixture> fixtures = fixtureService.getAllKabaddiFixtures();
+        return ResponseEntity.ok(fixtures);
+
+    }
+
+    // Create a new kabaddi fixture
+    @PostMapping("/kabaddi")
+    public ResponseEntity<KabaddiFixture> createKabaddiFixture(@RequestBody KabaddiFixture fixture) {
+        KabaddiFixture savedFixture = fixtureService.saveKabaddiFixture(fixture);
+        return ResponseEntity.ok(savedFixture);
+    }
+
+    // Update a specific kabaddi fixture
+    @PatchMapping("/kabaddi/{matchId}")
+    public ResponseEntity<KabaddiFixture> updateKabaddiFixture(@PathVariable Long matchId, @RequestBody Map<String, Object> updatedFixture) throws ResourceNotFoundException {
+        KabaddiFixture fixture = fixtureService.updateKabaddiFixture(matchId, updatedFixture);
+        return fixture != null ? ResponseEntity.ok(fixture) : ResponseEntity.notFound().build();
+    }
+
+
 
 }
