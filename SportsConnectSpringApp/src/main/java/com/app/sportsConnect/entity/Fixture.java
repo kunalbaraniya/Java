@@ -12,12 +12,23 @@ public class Fixture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matchId;
+
+    @Column(nullable = false)
     private String team1;
+
+    @Column(nullable = false)
     private String team2;
+
+    @Column(nullable = false)
     private LocalDate matchDate;
+
+    @Column(nullable = false)
+    private MatchStatus matchStatus;
+
     @CreationTimestamp
     @Column(name="creation_ts")
     private LocalDateTime createTimeStamp;
+
     @UpdateTimestamp
     @Column(name="updation_ts")
     private LocalDateTime updateTimeStamp;
@@ -71,6 +82,14 @@ public class Fixture {
         this.updateTimeStamp = updateTimeStamp;
     }
 
+    public MatchStatus getMatchStatus() {
+        return matchStatus;
+    }
+
+    public void setMatchStatus(MatchStatus matchStatus) {
+        this.matchStatus = matchStatus;
+    }
+
     @Override
     public String toString() {
         return "Fixture{" +
@@ -78,6 +97,7 @@ public class Fixture {
                 ", team1='" + team1 + '\'' +
                 ", team2='" + team2 + '\'' +
                 ", matchDate=" + matchDate +
+                ", matchStatus=" + matchStatus +
                 ", createTimeStamp=" + createTimeStamp +
                 ", updateTimeStamp=" + updateTimeStamp +
                 '}';
