@@ -6,15 +6,20 @@ import java.util.Date;
 
 @Entity
 public class FootballFixture extends Fixture {
-    private String score;
+	private String Team1Score;
+    private String Team2Score;
     private String matchType;
-
-	//Getters and Setters
-	public String getScore() {
-		return score;
+	public String getTeam1Score() {
+		return Team1Score;
 	}
-	public void setScore(String score) {
-		this.score = score;
+	public void setTeam1Score(String team1Score) {
+		Team1Score = team1Score;
+	}
+	public String getTeam2Score() {
+		return Team2Score;
+	}
+	public void setTeam2Score(String team2Score) {
+		Team2Score = team2Score;
 	}
 	public String getMatchType() {
 		return matchType;
@@ -23,11 +28,5 @@ public class FootballFixture extends Fixture {
 		this.matchType = matchType;
 	}
 
-	@Override
-	public String toString() {
-		return "FootballFixture{" +
-				"score='" + score + '\'' +
-				", matchType='" + matchType + '\'' +
-				'}';
-	}
+	
 }
