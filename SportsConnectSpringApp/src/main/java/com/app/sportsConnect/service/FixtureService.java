@@ -72,12 +72,18 @@ public class FixtureService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public FootballFixture updateFootballFixture(Long matchId, FootballFixture updatedFixture) {
-        if (footballFixtureRepository.existsById(matchId)) {
-            updatedFixture.setMatchId(matchId);
-            return footballFixtureRepository.save(updatedFixture);
-        }
-        return null;
+    public FootballFixture updateFootballFixture(Long matchId, Map<String, Object> updatedFixture) {
+        FootballFixture existingFixture = footballFixtureRepository.findById(matchId)
+                .orElseThrow(() -> new ResourceNotFoundException("Fixture Not Found"));
+
+        updatedFixture.forEach((key, value) -> {
+            Field field = ReflectionUtils.findField(FootballFixture.class, key);
+            if (field != null) {
+                field.setAccessible(true);
+                ReflectionUtils.setField(field, existingFixture, value);
+            }
+        });
+        return footballFixtureRepository.save(existingFixture);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

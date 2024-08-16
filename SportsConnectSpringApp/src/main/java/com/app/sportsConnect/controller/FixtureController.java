@@ -15,6 +15,7 @@ import com.app.sportsConnect.service.FixtureService;
 
 @RestController
 @RequestMapping("/api/fixtures")
+@CrossOrigin("http://localhost:3000")
 public class FixtureController {
 
     @Autowired
@@ -74,9 +75,9 @@ public class FixtureController {
     }
 
     // Update a specific football fixture (ADMIN only)
-    @PutMapping("/football/{matchId}")
+    @PatchMapping("/football/{matchId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<FootballFixture> updateFootballFixture(@PathVariable Long matchId, @RequestBody FootballFixture updatedFixture) {
+    public ResponseEntity<FootballFixture> updateFootballFixture(@PathVariable Long matchId, @RequestBody Map<String, Object> updatedFixture) {
         try {
             FootballFixture fixture = fixtureService.updateFootballFixture(matchId, updatedFixture);
             if (fixture != null) {
